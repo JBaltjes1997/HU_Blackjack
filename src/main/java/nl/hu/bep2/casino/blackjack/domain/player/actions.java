@@ -10,10 +10,10 @@ public class actions {
 
     public void stay(){}
 
-    public void split(){
-    }
+    public void split(){}
 
+    public void makeBet(){}
 
-
+    public void raiseBet(int raise){ }
 
 }
