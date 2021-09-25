@@ -1,6 +1,6 @@
-package nl.hu.bep2.casino.blackjack.application.cards;
+package nl.hu.bep2.casino.blackjack.domain.card;
 
-public enum cardValue {
+public enum Rank {
     ACE,
     ONE,
     TWO,
@@ -14,5 +14,5 @@ public enum cardValue {
     TEN,
     JACK,
     QUEEN,
-    KING,
+    KING
 }
