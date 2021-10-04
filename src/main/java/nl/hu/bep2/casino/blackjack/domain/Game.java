@@ -14,7 +14,4 @@ public class Game {
 
     public Long getBet(){return null;}
 
-
-
-
 }
