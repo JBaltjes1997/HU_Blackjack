@@ -2,6 +2,8 @@ package nl.hu.bep2.casino.blackjack.application;
 
 
 import nl.hu.bep2.casino.blackjack.domain.Game;
+import nl.hu.bep2.casino.blackjack.presentation.Bet;
+import nl.hu.bep2.casino.blackjack.presentation.Dto.GameDto;
 import nl.hu.bep2.casino.chips.application.ChipsService;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +18,13 @@ public class BlackjackService {
 
     public Game startGame(String username, Long bet){
         chipsService.withdrawChips(username, bet);
-        Game game = new Game(username, bet);
+        Game game = new Game(new Bet(bet));
         return game;
     }
+
+
+
+
 
 
 }

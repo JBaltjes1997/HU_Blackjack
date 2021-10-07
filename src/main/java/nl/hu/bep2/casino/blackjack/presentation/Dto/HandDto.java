@@ -1,4 +1,4 @@
-package nl.hu.bep2.casino.blackjack.presentation;
+package nl.hu.bep2.casino.blackjack.presentation.Dto;
 
 import java.util.List;
 

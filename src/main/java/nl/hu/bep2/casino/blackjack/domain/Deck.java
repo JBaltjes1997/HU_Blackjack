@@ -18,6 +18,10 @@ public class Deck implements Serializable {
             }
         }
     }
+
+    public List<Card> getCards() {
+        return cards;
+    }
 }
 
 

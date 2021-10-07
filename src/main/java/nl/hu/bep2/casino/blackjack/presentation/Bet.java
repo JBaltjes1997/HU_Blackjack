@@ -4,13 +4,13 @@ import javax.validation.constraints.Positive;
 
 public class Bet {
     @Positive
-    private final Integer bet;
+    private final Long bet;
 
-    public Bet(@Positive Integer bet) {
+    public Bet(@Positive Long bet) {
         this.bet = bet;
     }
 
-    public Integer getBet() {
+    public Long getBet() {
         return bet;
     }
 }
