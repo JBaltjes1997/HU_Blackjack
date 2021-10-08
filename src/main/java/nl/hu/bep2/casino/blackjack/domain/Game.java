@@ -4,13 +4,13 @@ import nl.hu.bep2.casino.blackjack.domain.Cards.Card;
 import nl.hu.bep2.casino.blackjack.presentation.Bet;
 
 public class Game {
-    private Player player;
-    private Dealer dealer;
-    private Bet bet;
+    private Player player = new Player();
+    private Dealer dealer = new Dealer();
+    private Long bet;
+    private String playerName;
 
-    public Game(Player player, Dealer dealer, Bet bet) {
-        this.player = player;
-        this.dealer = dealer;
+    public Game(String playerName, Long bet) {
+        this.playerName = playerName;
         this.bet = bet;
     }
 
@@ -26,9 +26,11 @@ public class Game {
         return dealer;
     }
 
-    public String getPlayerName(){return player.getUsername();}
+    public void setBet(Long bet) {
+        this.bet = bet;
+    }
 
-    public Bet getBet(){return this.bet;}
+    public Long getBet(){return this.bet;}
 
     public void dealCards(){
         player.getHand().addCard(dealer.dealCard());

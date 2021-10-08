@@ -1,7 +1,9 @@
 package nl.hu.bep2.casino.blackjack.application;
 
 
+import nl.hu.bep2.casino.blackjack.domain.Dealer;
 import nl.hu.bep2.casino.blackjack.domain.Game;
+import nl.hu.bep2.casino.blackjack.domain.Player;
 import nl.hu.bep2.casino.blackjack.presentation.Bet;
 import nl.hu.bep2.casino.blackjack.presentation.Dto.GameDto;
 import nl.hu.bep2.casino.chips.application.ChipsService;
@@ -18,9 +20,11 @@ public class BlackjackService {
 
     public Game startGame(String username, Long bet){
         chipsService.withdrawChips(username, bet);
-        Game game = new Game(new Bet(bet));
+        Game game = new Game(username, bet);
         return game;
     }
+
+
 
 
 

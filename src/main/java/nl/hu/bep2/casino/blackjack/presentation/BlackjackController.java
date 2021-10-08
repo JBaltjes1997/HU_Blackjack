@@ -37,17 +37,15 @@ public class BlackjackController {
         dto.playerHand = game.getPlayer().getHand();
         dto.dealerHand = game.getDealer().getHand();
         dto.id = game.getId();
-        dto.bet = game.getBet().getBet();
+        dto.bet = game.getBet();
         return dto;
     }
 
     @GetMapping("/start")
     public GameDto startGame( Authentication authenticate, @RequestBody BetDto betDto){
         UserProfile profile = (UserProfile) authenticate.getPrincipal();
-        service.startGame(profile.getUsername(), betDto.value);
-        return dto;
+        Game game = service.startGame(profile.getUsername(), betDto.value);
+        return showCards(game);
     }
-
-
 
 }

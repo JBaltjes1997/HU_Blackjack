@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Deck implements Serializable {
-    private List<Card> cards;
+    private List<Card> cards = new ArrayList<Card>();
 
     public Deck(){
         for (Rank rank : Rank.values()) {

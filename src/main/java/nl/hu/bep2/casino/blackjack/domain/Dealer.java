@@ -4,13 +4,8 @@ package nl.hu.bep2.casino.blackjack.domain;
 import nl.hu.bep2.casino.blackjack.domain.Cards.Card;
 
 public class Dealer {
-    private Deck deck;
-    private Hand hand;
-
-    public Dealer(Deck deck, Hand hand) {
-        this.deck = deck;
-        this.hand = hand;
-    }
+    private Deck deck = new Deck();
+    private Hand hand = new Hand();
 
     public Hand getHand() {
         return hand;
