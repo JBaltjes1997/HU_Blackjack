@@ -2,6 +2,7 @@ package nl.hu.bep2.casino.blackjack.presentation;
 
 
 import nl.hu.bep2.casino.blackjack.application.BlackjackService;
+import nl.hu.bep2.casino.blackjack.domain.Cards.Card;
 import nl.hu.bep2.casino.blackjack.domain.Game;
 import nl.hu.bep2.casino.blackjack.domain.Move;
 import nl.hu.bep2.casino.blackjack.presentation.Dto.BetDto;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.security.core.Authentication;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/BlackJack")
@@ -34,8 +36,11 @@ public class BlackjackController {
 
     public GameDto showCards(Game game){
         GameDto dto = new GameDto();
-        dto.playerHand = game.getPlayer().getHand();
-        dto.dealerHand = game.getDealer().getHand();
+//        dto.playerHand = game.getPlayer().getHand();
+//        dto.dealerHand = game.getDealer().getHand();
+
+        dto.playerHand = game.getPlayer().getHand().getCards();
+        dto.dealerHand = game.getDealer().getHand().getCards();
         dto.id = game.getId();
         dto.bet = game.getBet();
         return dto;
@@ -47,5 +52,8 @@ public class BlackjackController {
         Game game = service.startGame(profile.getUsername(), betDto.value);
         return showCards(game);
     }
+
+//    @GetMapping("/hit")
+//    public GameDto
 
 }

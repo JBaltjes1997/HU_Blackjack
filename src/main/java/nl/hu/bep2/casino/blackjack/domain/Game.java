@@ -12,7 +12,7 @@ public class Game {
     public Game(String playerName, Long bet) {
         this.playerName = playerName;
         this.bet = bet;
-    }
+    }   // dealCards zou als laatste in de constructor aangeroepen moeten worden
 
     public Game(){}
 
@@ -32,13 +32,19 @@ public class Game {
 
     public Long getBet(){return this.bet;}
 
+    public void dealOneCard(){
+        player.getHand().addCard(dealer.dealCard());
+    }
+
     public void dealCards(){
         player.getHand().addCard(dealer.dealCard());
         dealer.dealCardToSelve();
         player.getHand().addCard(dealer.dealCard());
-        dealer.dealCardToSelve();
+//        dealer.dealCardToSelve();
     }
 
-
+    public void startGame(){
+        dealCards();
+    }
 
 }

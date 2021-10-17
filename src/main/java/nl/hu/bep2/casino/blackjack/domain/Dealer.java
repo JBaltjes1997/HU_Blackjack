@@ -1,5 +1,7 @@
 package nl.hu.bep2.casino.blackjack.domain;
 
+import java.util.Random;
+
 
 import nl.hu.bep2.casino.blackjack.domain.Cards.Card;
 
@@ -14,7 +16,8 @@ public class Dealer {
     public Dealer(){}
 
     public Card dealCard(){
-        Card kaart = deck.getCards().get(0);
+        Random rand = new Random();
+        Card kaart = deck.getCards().get(rand.nextInt(53));
         deck.getCards().remove(kaart);
         return kaart;
     }

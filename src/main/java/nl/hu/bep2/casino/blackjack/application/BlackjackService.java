@@ -21,6 +21,7 @@ public class BlackjackService {
     public Game startGame(String username, Long bet){
         chipsService.withdrawChips(username, bet);
         Game game = new Game(username, bet);
+        game.startGame();
         return game;
     }
 
