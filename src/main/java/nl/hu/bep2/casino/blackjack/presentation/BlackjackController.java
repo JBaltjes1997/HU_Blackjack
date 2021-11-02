@@ -11,10 +11,8 @@ import nl.hu.bep2.casino.security.domain.UserProfile;
 import org.apache.catalina.Service;
 import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 
 import javax.validation.Valid;
@@ -46,14 +44,17 @@ public class BlackjackController {
         return dto;
     }
 
-    @GetMapping("/start")
-    public GameDto startGame( Authentication authenticate, @RequestBody BetDto betDto){
+    @GetMapping
+    public GameDto startGame( Authentication authenticate, @Validated  @RequestBody BetDto betDto){
         UserProfile profile = (UserProfile) authenticate.getPrincipal();
         Game game = service.startGame(profile.getUsername(), betDto.value);
         return showCards(game);
     }
 
-//    @GetMapping("/hit")
-//    public GameDto
+    @PutMapping("/id")
+    public GameDto hit(Authentication authenticate, @PathVariable Long id) {
+        Game game = service.hit(id);
+        return showCards(game);
+    }
 
 }

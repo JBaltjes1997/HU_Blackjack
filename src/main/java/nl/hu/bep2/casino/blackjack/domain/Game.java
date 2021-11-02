@@ -32,19 +32,24 @@ public class Game {
 
     public Long getBet(){return this.bet;}
 
-    public void dealOneCard(){
+    public void dealOneCardToPlayer(){
         player.getHand().addCard(dealer.dealCard());
+    }
+
+    public void dealOneCardToDealer(){
+        dealer.getHand().addCard(dealer.dealCard());
     }
 
     public void dealCards(){
         player.getHand().addCard(dealer.dealCard());
         dealer.dealCardToSelve();
         player.getHand().addCard(dealer.dealCard());
-//        dealer.dealCardToSelve();
     }
 
     public void startGame(){
         dealCards();
     }
+
+    public void hit(){ dealOneCardToPlayer();    }
 
 }

@@ -25,6 +25,16 @@ public class BlackjackService {
         return game;
     }
 
+//    public Game hit(String username){
+//        Game game = Game.getPlayerName();
+//        game.dealOneCardToPlayer();
+//        return game;
+//    }
+
+//    public Game stay(){
+//        return null;
+//    }
+
 
 
 

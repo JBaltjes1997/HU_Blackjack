@@ -23,5 +23,30 @@ public class GameDto {
     public GameDto() {
 
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getBet() {
+        return bet;
+    }
+
+    public void setBet(Long bet) {
+        this.bet = bet;
+    }
+
+    public List<Card> getPlayerHand() {
+        return playerHand;
+    }
+
+    public List<Card> getDealerHand() {
+        return dealerHand;
+    }
+
 }
 
