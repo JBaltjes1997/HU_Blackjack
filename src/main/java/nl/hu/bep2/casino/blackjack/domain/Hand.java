@@ -16,6 +16,11 @@ public class Hand implements Serializable {
 
     private List<Card> cards = new ArrayList<Card>();
 
+    public Hand(Long id, List<Card> cards) {
+        this.id = id;
+        this.cards = cards;
+    }
+
     public Hand(){}
 
 //    public List<Card> getCards() {
@@ -45,4 +50,6 @@ public class Hand implements Serializable {
     public Long getId() {
         return id;
     }
+
+
 }

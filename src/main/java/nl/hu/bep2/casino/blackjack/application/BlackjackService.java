@@ -33,33 +33,27 @@ public class BlackjackService {
 
         game.startGame(username, bet);
 
-//        if(game.checkBlackJack() ){
-//            return chipsService.depositChips(username, (long) (bet*1.5));
-//            return game;
-//        }
-
         this.repository.save(game);
 
-        return new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName());
+        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName());
+
+        if(game.checkBlackJack() == true){
+            chipsService.depositChips(username, (long) (bet*1.5));
+            System.out.println("Congratulations. You won!");
+            // moet nog toevoegen dat een bericht in postman komt
+        }
+        return gameData;
     }
 
     public GameData hit(String username, Long id){
         Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(() -> new GameNotFoundException());
 
+        game.playerHit();
+
+        if(game.checkBust() == true){
+            System.out.println("Sorry, you lost");
+        }
+
         return new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName());
-//        return new GameData(game.playererHit());
     }
-
-
-
-
-//    public GameDto showCards(Game game){
-//        GameDto dto = new GameDto();
-//
-//        dto.playerHand = game.getPlayer().getHand().getCards();
-//        dto.dealerHand = game.getDealer().getHand().getCards();
-//        dto.id = game.getId();
-//
-//        return dto;
-//    }
 }

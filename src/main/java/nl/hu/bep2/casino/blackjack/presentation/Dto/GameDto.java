@@ -44,6 +44,5 @@ public class GameDto {
     public List<Card> getDealerHand() {
         return dealerHand;
     }
-
 }
 
