@@ -2,21 +2,15 @@ package nl.hu.bep2.casino.blackjack.presentation;
 
 
 import nl.hu.bep2.casino.blackjack.application.BlackjackService;
-import nl.hu.bep2.casino.blackjack.domain.Cards.Card;
-import nl.hu.bep2.casino.blackjack.domain.Game;
-import nl.hu.bep2.casino.blackjack.domain.Move;
+import nl.hu.bep2.casino.blackjack.application.GameData;
 import nl.hu.bep2.casino.blackjack.presentation.Dto.BetDto;
-import nl.hu.bep2.casino.blackjack.presentation.Dto.GameDto;
 import nl.hu.bep2.casino.security.domain.UserProfile;
-import org.apache.catalina.Service;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.security.core.Authentication;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("/BlackJack")
@@ -32,29 +26,49 @@ public class BlackjackController {
         return null;
     }
 
-    public GameDto showCards(Game game){
-        GameDto dto = new GameDto();
-//        dto.playerHand = game.getPlayer().getHand();
-//        dto.dealerHand = game.getDealer().getHand();
+//    public GameDto showCards(Game game){
+//
+//        GameDto dto = new GameDto();
+//
+//        dto.playerHand = game.getPlayer().getHand().getCards();
+//        dto.dealerHand = game.getDealer().getHand().getCards();
+//        dto.id = game.getId();
+//        dto.bet = game.getBet();
+//
+//        return dto;
+//    }
 
-        dto.playerHand = game.getPlayer().getHand().getCards();
-        dto.dealerHand = game.getDealer().getHand().getCards();
-        dto.id = game.getId();
-        dto.bet = game.getBet();
-        return dto;
-    }
-
-    @GetMapping
-    public GameDto startGame( Authentication authenticate, @Validated  @RequestBody BetDto betDto){
+    @PostMapping
+    public GameData startGame(Authentication authenticate, @Validated  @RequestBody BetDto betDto){
         UserProfile profile = (UserProfile) authenticate.getPrincipal();
-        Game game = service.startGame(profile.getUsername(), betDto.value);
-        return showCards(game);
+        String username = profile.getUsername();
+
+        return service.startGame(profile.getUsername(), betDto.value);
     }
 
-    @PutMapping("/id")
-    public GameDto hit(Authentication authenticate, @PathVariable Long id) {
-        Game game = service.hit(id);
-        return showCards(game);
+    @PostMapping("game/{id}/hit")
+    public GameData hit(Authentication authentication, @Validated @PathVariable Long id){
+        String username = parseUsername(authentication);
+
+        return this.service.hit(username, id);
+
     }
+
+    private String parseUsername(Authentication authentication) {
+        UserProfile profile = (UserProfile) authentication.getPrincipal();
+        return profile.getUsername();
+    }
+
+
+//    hit
+//aan de bestaande game iets toevoegen
+
+
+
+//    @PutMapping("/id")
+//    public GameDto hit(Authentication authenticate, @PathVariable Long id) {
+//        Game game = service.hit(id);
+//        return showCards(game);
+//    }
 
 }

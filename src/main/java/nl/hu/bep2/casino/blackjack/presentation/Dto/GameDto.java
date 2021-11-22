@@ -8,8 +8,6 @@ import java.util.List;
 public class GameDto {
     public Long id;
     public Long bet;
-//    public Hand playerHand;
-//    public Hand dealerHand;
     public List<Card> playerHand;
     public List<Card> dealerHand;
 
@@ -21,7 +19,6 @@ public class GameDto {
     }
 
     public GameDto() {
-
     }
 
     public Long getId() {

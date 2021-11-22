@@ -4,11 +4,16 @@ import nl.hu.bep2.casino.blackjack.domain.Cards.Card;
 import nl.hu.bep2.casino.blackjack.domain.Cards.Rank;
 import nl.hu.bep2.casino.blackjack.domain.Cards.Suit;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Hand {
+public class Hand implements Serializable {
+
+    private Long id;
+
     private List<Card> cards = new ArrayList<Card>();
 
     public Hand(){}
@@ -22,7 +27,7 @@ public class Hand {
 //            System.out.println(card.getRank());
 //            System.out.println(card.getSuit());
 //        }
-        return cards;
+        return this.cards;
     }
 
     public void setCards(List<Card> cards) {
@@ -33,4 +38,11 @@ public class Hand {
         this.cards.add(card);
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
 }
