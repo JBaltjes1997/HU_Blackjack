@@ -46,12 +46,18 @@ public class BlackjackController {
         return service.startGame(profile.getUsername(), betDto.value);
     }
 
-    @PostMapping("game/{id}/hit")
+    @PostMapping("/{id}/hit")
     public GameData hit(Authentication authentication, @Validated @PathVariable Long id){
         String username = parseUsername(authentication);
 
         return this.service.hit(username, id);
+    }
 
+    @PostMapping("/{id}/stay")
+    public GameData stay(Authentication authentication, @Validated @PathVariable Long id){
+        String username = parseUsername(authentication);
+
+        return this.service.stay(username, id);
     }
 
     private String parseUsername(Authentication authentication) {

@@ -96,33 +96,49 @@ public class Game {
         this.dealerHand.addCard(deck.drawCard());
 
     }
-//
-//    public void hit(){ dealOneCardToPlayer(); }
 
-    public boolean checkBust(){
-        List<Card> cards = playerHand.getCards();
+    public static int getHandValue(Hand hand){
+        List<Card> cards = hand.getCards();
         int value = 0;
         for(Card c : cards){
             value += c.getRank().getRank();
         }
-        if(value > 21){
+        return value;
+    }
+
+    public boolean checkBust(Hand hand){     // denk aan DRY
+        if(Game.getHandValue(hand) > 21){
             return true;
         } else {
             return false;
         }
     }
 
-    public boolean checkBlackJack(){
-       List<Card> cards = playerHand.getCards();
-       int value = 0;
-       for(Card c : cards){
-           value += c.getRank().getRank();
-       }
-       if(value == 21){
+    public boolean checkBlackJack(Hand hand){
+       if(Game.getHandValue(hand) == 21){
            return true;
        } else {
            return false;
        }
+    }
+
+    public boolean checkDealerHand(Hand hand){
+        if(Game.getHandValue(hand) <=16){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public String checkWon(Hand playerHand, Hand dealerHand) {
+        if(Game.getHandValue(playerHand) > Game.getHandValue(dealerHand)) {
+            return "win";
+        } else if ((Game.getHandValue(playerHand) == Game.getHandValue(dealerHand))){
+            return "tie";
+        }
+        else {
+            return "lost";
+        }
     }
 
     public void checkAceValue(){

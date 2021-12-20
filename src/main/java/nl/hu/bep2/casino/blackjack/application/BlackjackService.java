@@ -37,10 +37,11 @@ public class BlackjackService {
 
         GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName());
 
-        if(game.checkBlackJack() == true){
+        if(game.checkBlackJack(game.getPlayerHand()) == true){
             chipsService.depositChips(username, (long) (bet*1.5));
             System.out.println("Congratulations. You won!");
             // moet nog toevoegen dat een bericht in postman komt
+            // tip van anderen, voeg een game status toe die showt of je wel/niet gewonnen hebt en daarna ook een terminate uitvoert
         }
         return gameData;
     }
@@ -50,8 +51,38 @@ public class BlackjackService {
 
         game.playerHit();
 
-        if(game.checkBust() == true){
-            System.out.println("Sorry, you lost");
+        if(game.checkBust(game.getPlayerHand()) == true){
+            System.out.println("Sorry, you got above 21. You lost :( ");
+            // to-be-add-on, a terminate request
+        }
+
+        return new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName());
+    }
+
+    public GameData stay(String username, Long id){
+        Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(() -> new GameNotFoundException());
+
+        game.dealerHit();
+        if(game.checkDealerHand(game.getDealerHand()) == true){
+            game.dealerHit();
+        }
+
+        if(game.checkBust(game.getDealerHand()) == true){
+            chipsService.depositChips(username, game.getBet() * 2);
+            System.out.println("The dealer busted, you have won!");
+            // to-be-add-on, a terminate request
+
+        } else {
+            if (game.checkWon(game.getPlayerHand(), game.getDealerHand()) == "win") {
+                chipsService.depositChips(username, game.getBet() * 2);
+                System.out.println("Congratulations. You won!");
+
+            } else if (game.checkWon(game.getPlayerHand(), game.getDealerHand()) == "tie"){
+                chipsService.depositChips(username, game.getBet());
+                System.out.println("It's a draw, no win and no gain");
+
+            }
+            System.out.println("Sorry, you lost :( ");
         }
 
         return new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName());
