@@ -1,5 +1,6 @@
 package nl.hu.bep2.casino.blackjack.domain;
 
+import nl.hu.bep2.casino.blackjack.application.GameStates;
 import nl.hu.bep2.casino.blackjack.domain.Cards.Card;
 import nl.hu.bep2.casino.blackjack.domain.Cards.Rank;
 
@@ -27,7 +28,7 @@ public class Game {
     @Lob
     private Deck deck;
 
-    // dealCards zou als laatste in de constructor aangeroepen moeten worden
+    private GameStates state;
 
     public Game(){}
 
@@ -64,24 +65,14 @@ public class Game {
         return userName;
     }
 
+    public GameStates getState() {
+        return state;
+    }
+
     public void playerHit(){
         playerHand.addCard(deck.drawCard());
     }
     public void dealerHit(){ dealerHand.addCard(deck.drawCard()); }
-
-    //    public void dealOneCardToPlayer(){
-//        player.getHand().addCard(dealer.dealCard());
-//    }
-//
-//    public void dealOneCardToDealer(){
-//        dealer.getHand().addCard(dealer.dealCard());
-//    }
-
-//    public void dealCards(){
-//        player.getHand().addCard(dealer.dealCard());
-//        dealer.dealCardToSelve();
-//        player.getHand().addCard(dealer.dealCard());
-//    }
 
     public void startGame(String userName, Long bet){
         this.userName = userName;
@@ -90,11 +81,11 @@ public class Game {
         this.dealerHand = new Hand();
         this.deck = Deck.full();
         this.deck.shuffle();
+        this.state = GameStates.on_going;
 
         this.playerHand.addCard(deck.drawCard());
         this.playerHand.addCard(deck.drawCard());
         this.dealerHand.addCard(deck.drawCard());
-
     }
 
     public static int getHandValue(Hand hand){

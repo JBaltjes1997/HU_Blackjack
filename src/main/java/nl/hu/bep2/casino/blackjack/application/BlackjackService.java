@@ -14,6 +14,8 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static nl.hu.bep2.casino.blackjack.application.GameStates.*;
+
 @Service
 @Transactional
 public class BlackjackService {
@@ -35,11 +37,11 @@ public class BlackjackService {
 
         this.repository.save(game);
 
-        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName());
+        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
 
         if(game.checkBlackJack(game.getPlayerHand()) == true){
             chipsService.depositChips(username, (long) (bet*1.5));
-            System.out.println("Congratulations. You won!");
+            gameData.setState(won);
             // moet nog toevoegen dat een bericht in postman komt
             // tip van anderen, voeg een game status toe die showt of je wel/niet gewonnen hebt en daarna ook een terminate uitvoert
         }
@@ -50,13 +52,17 @@ public class BlackjackService {
         Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(() -> new GameNotFoundException());
 
         game.playerHit();
+        game.checkAceValue();
+
+        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
 
         if(game.checkBust(game.getPlayerHand()) == true){
-            System.out.println("Sorry, you got above 21. You lost :( ");
+//            System.out.println("Sorry, you got above 21. You lost :( ");
+            gameData.setState(lost);
             // to-be-add-on, a terminate request
         }
 
-        return new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName());
+        return gameData;
     }
 
     public GameData stay(String username, Long id){
@@ -67,24 +73,26 @@ public class BlackjackService {
             game.dealerHit();
         }
 
+        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
+
         if(game.checkBust(game.getDealerHand()) == true){
             chipsService.depositChips(username, game.getBet() * 2);
-            System.out.println("The dealer busted, you have won!");
+            gameData.setState(won);
             // to-be-add-on, a terminate request
 
         } else {
             if (game.checkWon(game.getPlayerHand(), game.getDealerHand()) == "win") {
                 chipsService.depositChips(username, game.getBet() * 2);
-                System.out.println("Congratulations. You won!");
+                gameData.setState(won);
 
             } else if (game.checkWon(game.getPlayerHand(), game.getDealerHand()) == "tie"){
                 chipsService.depositChips(username, game.getBet());
-                System.out.println("It's a draw, no win and no gain");
+                gameData.setState(tie);
 
             }
-            System.out.println("Sorry, you lost :( ");
+            gameData.setState(lost);
         }
 
-        return new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName());
+        return gameData;
     }
 }

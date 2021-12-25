@@ -26,17 +26,6 @@ public class BlackjackController {
         return null;
     }
 
-//    public GameDto showCards(Game game){
-//
-//        GameDto dto = new GameDto();
-//
-//        dto.playerHand = game.getPlayer().getHand().getCards();
-//        dto.dealerHand = game.getDealer().getHand().getCards();
-//        dto.id = game.getId();
-//        dto.bet = game.getBet();
-//
-//        return dto;
-//    }
 
     @PostMapping
     public GameData startGame(Authentication authenticate, @Validated  @RequestBody BetDto betDto){
@@ -60,21 +49,15 @@ public class BlackjackController {
         return this.service.stay(username, id);
     }
 
+//    @DeleteMapping("{id}")
+//    public void deleteGame(@PathVariable int id){
+//        this.service.deleteFlightRoute(id);
+//    }){
+//
+//    }
+
     private String parseUsername(Authentication authentication) {
         UserProfile profile = (UserProfile) authentication.getPrincipal();
         return profile.getUsername();
     }
-
-
-//    hit
-//aan de bestaande game iets toevoegen
-
-
-
-//    @PutMapping("/id")
-//    public GameDto hit(Authentication authenticate, @PathVariable Long id) {
-//        Game game = service.hit(id);
-//        return showCards(game);
-//    }
-
 }

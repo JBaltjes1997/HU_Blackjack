@@ -19,12 +19,16 @@ public class GameData {
 
     private String userName;
 
-    public GameData(Long id, Long bet, Hand playerHand, Hand dealerHand, String userName) {
+    private GameStates state;
+
+    public GameData(Long id, Long bet, Hand playerHand, Hand dealerHand, String userName, GameStates state) {
         this.id = id;
         this.bet = bet;
         this.playerHand = playerHand;
         this.dealerHand = dealerHand;
         this.userName = userName;
+        this.state = state;
+
     }
 
     public Long getId() {
@@ -47,29 +51,11 @@ public class GameData {
         return userName;
     }
 
+    public GameStates getState() {
+        return state;
+    }
 
-    //    public boolean checkBlackJack(){
-//        List<Card> cards = player.getHand().getCards();
-//        int value = 0;
-//        for(Card c : cards){
-//            value += c.getRank().getRank();
-//        }
-//        if(value == 21){
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
-//
-//    public void checkAceValue(){
-//        List<Card> cards = player.getHand().getCards();
-//        for(Card c : cards){
-//            if(c.getRank() == Rank.ACE){
-//                c.getRank().setRank(1);
-//                return;
-//            }
-//        }
-//    }
-
-
+    public void setState(GameStates state) {
+        this.state = state;
+    }
 }
