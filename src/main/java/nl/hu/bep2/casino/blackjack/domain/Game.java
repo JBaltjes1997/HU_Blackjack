@@ -124,13 +124,11 @@ public class Game {
     public String checkWon(Hand playerHand, Hand dealerHand) {
         if(Game.getHandValue(playerHand) > Game.getHandValue(dealerHand)) {
             return "win";
-        } else if ((Game.getHandValue(playerHand) == Game.getHandValue(dealerHand))){
-            return "tie";
-        }
-        else {
+        } else if ((Game.getHandValue(playerHand) < Game.getHandValue(dealerHand))){
             return "lost";
         }
-    }
+            return "tie";
+        }
 
     public void checkAceValue(){
         List<Card> cards = playerHand.getCards();

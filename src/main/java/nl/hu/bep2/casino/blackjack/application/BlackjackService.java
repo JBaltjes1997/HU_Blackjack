@@ -57,7 +57,7 @@ public class BlackjackService {
         GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
 
         if(game.checkBust(game.getPlayerHand()) == true){
-//            System.out.println("Sorry, you got above 21. You lost :( ");
+            System.out.println("Sorry, you got above 21. You lost :( ");
             gameData.setState(lost);
             // to-be-add-on, a terminate request
         }
@@ -78,19 +78,24 @@ public class BlackjackService {
         if(game.checkBust(game.getDealerHand()) == true){
             chipsService.depositChips(username, game.getBet() * 2);
             gameData.setState(won);
+            System.out.println("gewonnen");
             // to-be-add-on, a terminate request
 
         } else {
             if (game.checkWon(game.getPlayerHand(), game.getDealerHand()) == "win") {
                 chipsService.depositChips(username, game.getBet() * 2);
                 gameData.setState(won);
+                System.out.println("gewonnen");
 
-            } else if (game.checkWon(game.getPlayerHand(), game.getDealerHand()) == "tie"){
+            } else if (game.checkWon(game.getPlayerHand(), game.getDealerHand()) == "lost"){
+                gameData.setState(lost);
+                System.out.println("verloren");
+
+            } else {
                 chipsService.depositChips(username, game.getBet());
                 gameData.setState(tie);
-
+                System.out.println("gelijkspel");
             }
-            gameData.setState(lost);
         }
 
         return gameData;

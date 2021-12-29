@@ -12,12 +12,17 @@ import java.util.List;
 
 public class Hand implements Serializable {
 
-    private Long id;
+//    private Long id;
 
     private List<Card> cards = new ArrayList<Card>();
 
-    public Hand(Long id, List<Card> cards) {
-        this.id = id;
+//    public Hand(Long id, List<Card> cards) {
+//        this.id = id;
+//        this.cards = cards;
+//    }
+
+    public Hand(List<Card> cards) {
+//        this.id = id;
         this.cards = cards;
     }
 
@@ -43,13 +48,13 @@ public class Hand implements Serializable {
         this.cards.add(card);
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
+//    public void setId(Long id) {
+//        this.id = id;
+//    }
+//
+//    public Long getId() {
+//        return id;
+//    }
 
 
 }
