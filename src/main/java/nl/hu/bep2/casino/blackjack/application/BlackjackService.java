@@ -27,7 +27,7 @@ public class BlackjackService {
         this.repository = repository;
     }
 
-    public GameData startGame(String username, Long bet){ // na elke stap, saven in de database. Move uitvoeren, upslaan en door
+    public GameData startGame(String username, Long bet){
 
         Game game = new Game(username, bet);
 
@@ -42,8 +42,6 @@ public class BlackjackService {
         if(game.checkBlackJack(game.getPlayerHand()) == true){
             chipsService.depositChips(username, (long) (bet*1.5));
             gameData.setState(won);
-            // moet nog toevoegen dat een bericht in postman komt
-            // tip van anderen, voeg een game status toe die showt of je wel/niet gewonnen hebt en daarna ook een terminate uitvoert
         }
         return gameData;
     }
@@ -57,9 +55,8 @@ public class BlackjackService {
         GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
 
         if(game.checkBust(game.getPlayerHand()) == true){
-            System.out.println("Sorry, you got above 21. You lost :( ");
-            gameData.setState(lost);
-            // to-be-add-on, a terminate request
+            gameData.setState(bust);
+
         }
 
         return gameData;
@@ -78,25 +75,31 @@ public class BlackjackService {
         if(game.checkBust(game.getDealerHand()) == true){
             chipsService.depositChips(username, game.getBet() * 2);
             gameData.setState(won);
-            System.out.println("gewonnen");
-            // to-be-add-on, a terminate request
 
         } else {
             if (game.checkWon(game.getPlayerHand(), game.getDealerHand()) == "win") {
                 chipsService.depositChips(username, game.getBet() * 2);
                 gameData.setState(won);
-                System.out.println("gewonnen");
 
             } else if (game.checkWon(game.getPlayerHand(), game.getDealerHand()) == "lost"){
                 gameData.setState(lost);
-                System.out.println("verloren");
 
             } else {
                 chipsService.depositChips(username, game.getBet());
                 gameData.setState(tie);
-                System.out.println("gelijkspel");
             }
         }
+
+        return gameData;
+    }
+
+    public GameData surrender(String username, Long id) {
+        Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(() -> new GameNotFoundException());
+
+        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
+
+        chipsService.depositChips(username, game.getBet() / 2 );
+        gameData.setState(resigned);
 
         return gameData;
     }

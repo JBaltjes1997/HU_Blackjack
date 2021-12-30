@@ -4,5 +4,7 @@ public enum GameStates {
     on_going,
     won,
     lost,
-    tie;
+    bust,
+    tie,
+    resigned,
 }

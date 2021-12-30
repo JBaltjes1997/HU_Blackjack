@@ -49,6 +49,13 @@ public class BlackjackController {
         return this.service.stay(username, id);
     }
 
+    @PostMapping("/{id}/surrender")
+    public GameData surrender(Authentication authentication, @Validated @PathVariable Long id){
+        String username = parseUsername(authentication);
+
+        return this.service.surrender(username, id);
+    }
+
 //    @DeleteMapping("{id}")
 //    public void deleteGame(@PathVariable int id){
 //        this.service.deleteFlightRoute(id);
