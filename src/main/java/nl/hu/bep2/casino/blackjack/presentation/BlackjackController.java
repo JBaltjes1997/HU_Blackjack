@@ -3,6 +3,7 @@ package nl.hu.bep2.casino.blackjack.presentation;
 
 import nl.hu.bep2.casino.blackjack.application.BlackjackService;
 import nl.hu.bep2.casino.blackjack.application.GameData;
+import nl.hu.bep2.casino.blackjack.domain.Bet;
 import nl.hu.bep2.casino.blackjack.presentation.Dto.BetDto;
 import nl.hu.bep2.casino.security.domain.UserProfile;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,6 @@ public class BlackjackController {
         return null;
     }
 
-
     @PostMapping
     public GameData startGame(Authentication authenticate, @Validated  @RequestBody BetDto betDto){
         UserProfile profile = (UserProfile) authenticate.getPrincipal();
@@ -41,6 +41,13 @@ public class BlackjackController {
 
         return this.service.hit(username, id);
     }
+
+//    @PostMapping("/{id}/doubleDown")
+//    public GameData hit(Authentication authentication, @Validated @PathVariable Long id){
+//        String username = parseUsername(authentication);
+//
+//        return this.service.doubleDown(username, id);
+//    }
 
     @PostMapping("/{id}/stay")
     public GameData stay(Authentication authentication, @Validated @PathVariable Long id){

@@ -4,15 +4,10 @@ package nl.hu.bep2.casino.blackjack.application;
 import nl.hu.bep2.casino.blackjack.data.GameRepository;
 
 import nl.hu.bep2.casino.blackjack.domain.Game;
-import nl.hu.bep2.casino.blackjack.domain.Hand;
-import nl.hu.bep2.casino.blackjack.presentation.Bet;
-import nl.hu.bep2.casino.blackjack.presentation.Dto.GameDto;
 import nl.hu.bep2.casino.chips.application.ChipsService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
 
 import static nl.hu.bep2.casino.blackjack.application.GameStates.*;
 
@@ -56,17 +51,33 @@ public class BlackjackService {
 
         if(game.checkBust(game.getPlayerHand()) == true){
             gameData.setState(bust);
-
         }
 
         return gameData;
     }
 
+//    public GameData doubleDown(String username, Long id){
+//        Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(() -> new GameNotFoundException());
+//
+//        chipsService.withdrawChips(username, game.getBet());
+//
+//        game.playerHit();
+//        game.checkAceValue();
+//
+//        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
+//
+//        if(game.checkBust(game.getPlayerHand()) == true){
+//            gameData.setState(bust);
+//        }
+//
+//        return gameData;
+//    }
+
     public GameData stay(String username, Long id){
         Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(() -> new GameNotFoundException());
 
         game.dealerHit();
-        if(game.checkDealerHand(game.getDealerHand()) == true){
+        while(game.checkDealerHand(game.getDealerHand()) == true){
             game.dealerHit();
         }
 

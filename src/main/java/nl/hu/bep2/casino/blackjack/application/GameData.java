@@ -28,7 +28,6 @@ public class GameData {
         this.dealerHand = dealerHand;
         this.userName = userName;
         this.state = state;
-
     }
 
     public Long getId() {

@@ -113,12 +113,20 @@ public class Game {
        }
     }
 
+//    public boolean checkDealerHand(Hand hand){
+//        if(Game.getHandValue(hand) <=16){
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+
     public boolean checkDealerHand(Hand hand){
-        if(Game.getHandValue(hand) <=16){
+        int i = Game.getHandValue(hand);
+        while( i <= 16){
+            i++;
             return true;
-        } else {
-            return false;
-        }
+        } return false;
     }
 
     public String checkWon(Hand playerHand, Hand dealerHand) {
