@@ -15,7 +15,11 @@ public class GameData {
 
     private Hand playerHand;
 
+    private int playerHandValue;
+
     private Hand dealerHand;
+
+    private int dealerHandValue;
 
     private String userName;
 
@@ -29,6 +33,17 @@ public class GameData {
         this.userName = userName;
         this.state = state;
     }
+//
+//    public GameData(Long id, Long bet, Hand playerHand, int playerHandValue, Hand dealerHand, int dealerHandValue, String userName, GameStates state) {
+//        this.id = id;
+//        this.bet = bet;
+//        this.playerHand = playerHand;
+//
+//        this.dealerHand = dealerHand;
+//
+//        this.userName = userName;
+//        this.state = state;
+//    }
 
     public Long getId() {
         return id;
@@ -48,6 +63,14 @@ public class GameData {
 
     public String getUserName() {
         return userName;
+    }
+
+    public int getPlayerHandValue() {
+        return playerHandValue;
+    }
+
+    public int getDealerHandValue() {
+        return dealerHandValue;
     }
 
     public GameStates getState() {

@@ -4,6 +4,7 @@ package nl.hu.bep2.casino.blackjack.application;
 import nl.hu.bep2.casino.blackjack.data.GameRepository;
 
 import nl.hu.bep2.casino.blackjack.domain.Game;
+import nl.hu.bep2.casino.blackjack.domain.Hand;
 import nl.hu.bep2.casino.chips.application.ChipsService;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,8 @@ public class BlackjackService {
 
         this.repository.save(game);
 
-        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
+        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(),
+                game.getDealerHand(), game.getUserName(), game.getState());
 
         if(game.checkBlackJack(game.getPlayerHand()) == true){
             chipsService.depositChips(username, (long) (bet*1.5));
@@ -41,13 +43,15 @@ public class BlackjackService {
         return gameData;
     }
 
+
     public GameData hit(String username, Long id){
         Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(() -> new GameNotFoundException());
 
         game.playerHit();
-        game.checkAceValue();
+        game.checkAceValue(game.getPlayerHand());
 
-        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
+        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(),
+                game.getDealerHand(), game.getUserName(), game.getState());
 
         if(game.checkBust(game.getPlayerHand()) == true){
             gameData.setState(bust);
@@ -56,22 +60,23 @@ public class BlackjackService {
         return gameData;
     }
 
-//    public GameData doubleDown(String username, Long id){
-//        Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(() -> new GameNotFoundException());
-//
-//        chipsService.withdrawChips(username, game.getBet());
-//
-//        game.playerHit();
-//        game.checkAceValue();
-//
-//        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
-//
-//        if(game.checkBust(game.getPlayerHand()) == true){
-//            gameData.setState(bust);
-//        }
-//
-//        return gameData;
-//    }
+
+    public GameData doubleDown(String username, Long id){
+        Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(() -> new GameNotFoundException());
+
+        chipsService.withdrawChips(username, game.getBet());
+
+        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
+
+        game.playerHit();
+        game.checkAceValue(game.getPlayerHand());
+
+        if(game.checkBust(game.getPlayerHand()) == true){
+            gameData.setState(bust);
+        }
+
+        return stay(username, id);
+    }
 
     public GameData stay(String username, Long id){
         Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(() -> new GameNotFoundException());
@@ -80,8 +85,10 @@ public class BlackjackService {
         while(game.checkDealerHand(game.getDealerHand()) == true){
             game.dealerHit();
         }
+        game.checkAceValue(game.getDealerHand());
 
-        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
+        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(),
+                game.getDealerHand(), game.getUserName(), game.getState());
 
         if(game.checkBust(game.getDealerHand()) == true){
             chipsService.depositChips(username, game.getBet() * 2);
@@ -107,7 +114,8 @@ public class BlackjackService {
     public GameData surrender(String username, Long id) {
         Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(() -> new GameNotFoundException());
 
-        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
+        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(),
+                game.getDealerHand(), game.getUserName(), game.getState());
 
         chipsService.depositChips(username, game.getBet() / 2 );
         gameData.setState(resigned);

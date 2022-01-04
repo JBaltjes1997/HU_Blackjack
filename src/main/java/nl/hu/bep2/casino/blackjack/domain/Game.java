@@ -97,7 +97,7 @@ public class Game {
         return value;
     }
 
-    public boolean checkBust(Hand hand){     // denk aan DRY
+    public boolean checkBust(Hand hand){
         if(Game.getHandValue(hand) > 21){
             return true;
         } else {
@@ -112,14 +112,6 @@ public class Game {
            return false;
        }
     }
-
-//    public boolean checkDealerHand(Hand hand){
-//        if(Game.getHandValue(hand) <=16){
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
 
     public boolean checkDealerHand(Hand hand){
         int i = Game.getHandValue(hand);
@@ -138,8 +130,8 @@ public class Game {
             return "tie";
         }
 
-    public void checkAceValue(){
-        List<Card> cards = playerHand.getCards();
+    public void checkAceValue(Hand hand){
+        List<Card> cards = hand.getCards();
         for(Card c : cards){
             if(c.getRank() == Rank.ACE){
                c.getRank().setRank(1);

@@ -42,12 +42,12 @@ public class BlackjackController {
         return this.service.hit(username, id);
     }
 
-//    @PostMapping("/{id}/doubleDown")
-//    public GameData hit(Authentication authentication, @Validated @PathVariable Long id){
-//        String username = parseUsername(authentication);
-//
-//        return this.service.doubleDown(username, id);
-//    }
+    @PostMapping("/{id}/doubleDown")
+    public GameData doubleDown(Authentication authentication, @Validated @PathVariable Long id){
+        String username = parseUsername(authentication);
+
+        return this.service.doubleDown(username, id);
+    }
 
     @PostMapping("/{id}/stay")
     public GameData stay(Authentication authentication, @Validated @PathVariable Long id){

@@ -13,13 +13,14 @@ import java.util.List;
 public class Hand implements Serializable {
 
     private List<Card> cards = new ArrayList<Card>();
+    private int handValue;
 
     public Hand(List<Card> cards, int handValue) {
         this.cards = cards;
+        this.handValue = handValue;
     }
 
     public Hand(){}
-
 
     public List<Card> getCards() {
         return this.cards;
@@ -33,4 +34,11 @@ public class Hand implements Serializable {
         this.cards.add(card);
     }
 
+    public void setHandValue(int handValue) {
+        this.handValue = handValue;
+    }
+
+    public int getHandValue(Hand hand) {
+        return handValue;
+    }
 }

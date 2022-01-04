@@ -1,0 +1,10 @@
+Aantekeningen t.o.v. vorige poging:
+- code is veel cleaner
+- eenvoudiger
+
+Operabiliteit is verhoogd.
+
+- dependency injection, ICE, Solid, loose coupling, high cohesion,
+
+misverstand, eerste indruk was dat wanneer de dealer hand <= 16 de dealer maar één extra kaart moet pakken.
+Dat is incorrect, de dealer moet kaarten blijven pakken totdat diens hand => 17 is.
