@@ -36,7 +36,7 @@ public class BlackjackService {
         GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(),
                 game.getDealerHand(), game.getUserName(), game.getState());
 
-        if(game.checkBlackJack(game.getPlayerHand()) == true){
+        if(game.checkBlackJack(game.getPlayerHand())){
             chipsService.depositChips(username, (long) (bet*1.5));
             gameData.setState(won);
         }
@@ -45,7 +45,7 @@ public class BlackjackService {
 
 
     public GameData hit(String username, Long id){
-        Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(() -> new GameNotFoundException());
+        Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(GameNotFoundException::new);
 
         game.playerHit();
         game.checkAceValue(game.getPlayerHand());
@@ -53,7 +53,7 @@ public class BlackjackService {
         GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(),
                 game.getDealerHand(), game.getUserName(), game.getState());
 
-        if(game.checkBust(game.getPlayerHand()) == true){
+        if(game.checkBust(game.getPlayerHand())){
             gameData.setState(bust);
         }
 
@@ -62,27 +62,29 @@ public class BlackjackService {
 
 
     public GameData doubleDown(String username, Long id){
-        Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(() -> new GameNotFoundException());
+        Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(GameNotFoundException::new); // hier word het spel opgehaald
 
         chipsService.withdrawChips(username, game.getBet());
+
+        // moet nog 'bet' verdubbelen
 
         GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
 
         game.playerHit();
         game.checkAceValue(game.getPlayerHand());
 
-        if(game.checkBust(game.getPlayerHand()) == true){
+        if(game.checkBust(game.getPlayerHand())){
             gameData.setState(bust);
         }
 
-        return stay(username, id);
+        return this.stay(username, id);
     }
 
     public GameData stay(String username, Long id){
-        Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(() -> new GameNotFoundException());
+        Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(GameNotFoundException::new);
 
         game.dealerHit();
-        while(game.checkDealerHand(game.getDealerHand()) == true){
+        while(game.checkDealerHand(game.getDealerHand())){
             game.dealerHit();
         }
         game.checkAceValue(game.getDealerHand());
@@ -90,7 +92,7 @@ public class BlackjackService {
         GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(),
                 game.getDealerHand(), game.getUserName(), game.getState());
 
-        if(game.checkBust(game.getDealerHand()) == true){
+        if(game.checkBust(game.getDealerHand())){
             chipsService.depositChips(username, game.getBet() * 2);
             gameData.setState(won);
 
@@ -112,7 +114,7 @@ public class BlackjackService {
     }
 
     public GameData surrender(String username, Long id) {
-        Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(() -> new GameNotFoundException());
+        Game game = this.repository.findByUserNameAndId(username, id).orElseThrow(GameNotFoundException::new);
 
         GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(),
                 game.getDealerHand(), game.getUserName(), game.getState());

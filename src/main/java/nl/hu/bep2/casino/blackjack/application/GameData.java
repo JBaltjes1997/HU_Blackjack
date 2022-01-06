@@ -2,6 +2,7 @@ package nl.hu.bep2.casino.blackjack.application;
 
 import nl.hu.bep2.casino.blackjack.domain.Cards.Card;
 import nl.hu.bep2.casino.blackjack.domain.Cards.Rank;
+import nl.hu.bep2.casino.blackjack.domain.Game;
 import nl.hu.bep2.casino.blackjack.domain.Hand;
 
 import javax.persistence.*;
@@ -15,11 +16,7 @@ public class GameData {
 
     private Hand playerHand;
 
-    private int playerHandValue;
-
     private Hand dealerHand;
-
-    private int dealerHandValue;
 
     private String userName;
 
@@ -33,17 +30,6 @@ public class GameData {
         this.userName = userName;
         this.state = state;
     }
-//
-//    public GameData(Long id, Long bet, Hand playerHand, int playerHandValue, Hand dealerHand, int dealerHandValue, String userName, GameStates state) {
-//        this.id = id;
-//        this.bet = bet;
-//        this.playerHand = playerHand;
-//
-//        this.dealerHand = dealerHand;
-//
-//        this.userName = userName;
-//        this.state = state;
-//    }
 
     public Long getId() {
         return id;
@@ -65,14 +51,6 @@ public class GameData {
         return userName;
     }
 
-    public int getPlayerHandValue() {
-        return playerHandValue;
-    }
-
-    public int getDealerHandValue() {
-        return dealerHandValue;
-    }
-
     public GameStates getState() {
         return state;
     }
@@ -80,4 +58,8 @@ public class GameData {
     public void setState(GameStates state) {
         this.state = state;
     }
+
+//    private GameData(){   // zet hier zo'n DRY voor de GameData
+//        return new GameData()
+//    }
 }

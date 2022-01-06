@@ -1,10 +1,44 @@
-Aantekeningen t.o.v. vorige poging:
-- code is veel cleaner
-- eenvoudiger
+Verbeteringen t.o.v. vorige poging:
+- code is veel cleaner & eenvoudiger
+- postman is simpeler; alle irrelevante informatie (hand- & kaart-id's) is verwijderd
+- Bij een hand van 21 bij de eerste 2 kaarten krijgt de speler automatisch blackJack en 1.5x zijn inzet terug
+- De aas word naar 1 gezet
+- De speler krijgt een status van het spel
 
 Operabiliteit is verhoogd.
+
+- Booch domainmodel => abstraction, encapsulation, modularity, hierarchy
 
 - dependency injection, ICE, Solid, loose coupling, high cohesion,
 
 misverstand, eerste indruk was dat wanneer de dealer hand <= 16 de dealer maar één extra kaart moet pakken.
 Dat is incorrect, de dealer moet kaarten blijven pakken totdat diens hand => 17 is.
+
+SOLID: 
+	High Cohesion: (cohesion betreft de samenhang van de code( High cohesion is beter. De code is rubuster, de klassen zijn kleiner en eenvoudiger. Ook meer re-useability + het is beter te lezen)
+	Coupling(betreft de afhankelijkheid van andere modules(Low coupling is beter, de code is zo veel mogelijk onafhankelijk en minder klassen worden aangepast bij aanpassingen))
+	Single Responsibility Principle(SRP):
+		klasse Game berekent alle calculaties t.o.v. het spel. Bijv. is er blackJack of is er een bust.
+		GameData houdt alle waardes van het spel vast
+		BlackJackService houdt alle acties vast
+		De controller handelt alle HTTP requests af
+
+	#tip, breek methoden op in kleinere private methode
+
+	Open Closed Priciple(OCP):
+		"Modules should be open for extensions, but closed for modification"
+		Aka, een klasse moet dusdanig ontworpen owrden dat deze niet/nauwelijks intern gewijzigd 
+		word als je een functionaliteit wilt toevoegen
+
+	Liskov Substituion principle(LSP):
+		"substypes moeten vervangen kunnen worden door supertypes"
+
+	Interface Segregation Principle(ISP):
+		#Encapsulation
+		Denk aan wat relevant is
+
+	Dependency Inversion Principle(DIP):
+		"Modules moeten zoveel mogelijk afhankelijk zijn van abstracties 
+			en niet van concrete implementatiedetails"
+		
+	

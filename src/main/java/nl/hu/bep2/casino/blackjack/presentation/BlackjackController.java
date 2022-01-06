@@ -22,11 +22,6 @@ public class BlackjackController {
         this.service = service;
     }
 
-    @GetMapping("/Bets")
-    public ResponseEntity<Void> testBet(@Valid @RequestBody Bet bet){
-        return null;
-    }
-
     @PostMapping
     public GameData startGame(Authentication authenticate, @Validated  @RequestBody BetDto betDto){
         UserProfile profile = (UserProfile) authenticate.getPrincipal();
@@ -62,13 +57,6 @@ public class BlackjackController {
 
         return this.service.surrender(username, id);
     }
-
-//    @DeleteMapping("{id}")
-//    public void deleteGame(@PathVariable int id){
-//        this.service.deleteFlightRoute(id);
-//    }){
-//
-//    }
 
     private String parseUsername(Authentication authentication) {
         UserProfile profile = (UserProfile) authentication.getPrincipal();

@@ -5,5 +5,4 @@ import javax.validation.constraints.Positive;
 public class BetDto {
     @Positive
     public Long value;
-
 }
