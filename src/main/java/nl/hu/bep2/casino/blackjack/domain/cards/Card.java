@@ -1,8 +1,5 @@
-package nl.hu.bep2.casino.blackjack.domain.Cards;
+package nl.hu.bep2.casino.blackjack.domain.cards;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.io.Serializable;
 
 

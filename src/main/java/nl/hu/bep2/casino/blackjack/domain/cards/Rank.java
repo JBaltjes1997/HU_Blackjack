@@ -1,4 +1,4 @@
-package nl.hu.bep2.casino.blackjack.domain.Cards;
+package nl.hu.bep2.casino.blackjack.domain.cards;
 
 public enum Rank {
     ONE(1),

@@ -1,10 +1,9 @@
 package nl.hu.bep2.casino.blackjack.domain;
 
-import nl.hu.bep2.casino.blackjack.domain.Cards.Card;
-import nl.hu.bep2.casino.blackjack.domain.Cards.Rank;
-import nl.hu.bep2.casino.blackjack.domain.Cards.Suit;
+import nl.hu.bep2.casino.blackjack.domain.cards.Card;
+import nl.hu.bep2.casino.blackjack.domain.cards.Rank;
+import nl.hu.bep2.casino.blackjack.domain.cards.Suit;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;

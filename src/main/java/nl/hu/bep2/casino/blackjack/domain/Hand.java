@@ -1,10 +1,8 @@
 package nl.hu.bep2.casino.blackjack.domain;
 
-import nl.hu.bep2.casino.blackjack.domain.Cards.Card;
-import nl.hu.bep2.casino.blackjack.domain.Cards.Rank;
-import nl.hu.bep2.casino.blackjack.domain.Cards.Suit;
+import nl.hu.bep2.casino.blackjack.domain.cards.Card;
+import nl.hu.bep2.casino.blackjack.domain.cards.Rank;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,5 +29,24 @@ public class Hand implements Serializable {
     public void addCard(Card card){
         this.cards.add(card);
     }
+
+    public int handValue(){
+        int value = 0;
+        for(Card c : cards){
+            value += c.getRank().getRank();
+        }
+        return value;
+    }
+
+    public void checkAceValue(){
+        for(Card c : cards){
+            if(c.getRank() == Rank.ACE){
+                c.getRank().setRank(1);
+                return;
+            }
+        }
+    }
+
+
 
 }

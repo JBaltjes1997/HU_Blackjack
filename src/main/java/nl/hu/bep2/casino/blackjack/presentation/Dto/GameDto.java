@@ -1,7 +1,6 @@
 package nl.hu.bep2.casino.blackjack.presentation.Dto;
 
-import nl.hu.bep2.casino.blackjack.domain.Cards.Card;
-import nl.hu.bep2.casino.blackjack.domain.Hand;
+import nl.hu.bep2.casino.blackjack.domain.cards.Card;
 
 import java.util.List;
 

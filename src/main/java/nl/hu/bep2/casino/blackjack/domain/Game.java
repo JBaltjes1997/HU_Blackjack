@@ -1,12 +1,14 @@
 package nl.hu.bep2.casino.blackjack.domain;
 
+import nl.hu.bep2.casino.blackjack.application.GameData;
 import nl.hu.bep2.casino.blackjack.application.GameStates;
-import nl.hu.bep2.casino.blackjack.domain.Cards.Card;
-import nl.hu.bep2.casino.blackjack.domain.Cards.Rank;
+import nl.hu.bep2.casino.blackjack.domain.cards.Card;
+import nl.hu.bep2.casino.blackjack.domain.exceptions.NotAllowedException;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Objects;
+
+import static nl.hu.bep2.casino.blackjack.application.GameStates.*;
 
 @Entity
 @Table(name = "game")
@@ -86,59 +88,127 @@ public class Game {
         this.playerHand.addCard(deck.drawCard());
         this.playerHand.addCard(deck.drawCard());
         this.dealerHand.addCard(deck.drawCard());
-    }
 
-    public static int getHandValue(Hand hand){
-        List<Card> cards = hand.getCards();
-        int value = 0;
-        for(Card c : cards){
-            value += c.getRank().getRank();
+        if(playerHand.handValue() == 21 ){
+//            chipsService.depositChips(username, (long) (bet*1.5));
+            state = GameStates.blackjack;
         }
-        return value;
     }
 
-    public boolean checkBust(Hand hand){
-        if(Game.getHandValue(hand) > 21){
-            return true;
+//    public static int getHandValue(Hand hand){
+//        List<Card> cards = hand.getCards();
+//        int value = 0;
+//        for(Card c : cards){
+//            value += c.getRank().getRank();
+//        }
+//        return value;
+//    }
+
+    public void hit() {
+        if (!state.equals(on_going)) {
+            throw new NotAllowedException();
+        }
+
+        this.playerHand.addCard(deck.drawCard());
+
+        if (playerHand.handValue() > 21) {
+            state = GameStates.bust;
+        }
+    }
+
+    public void stand(){
+        if (!state.equals(on_going)) {
+            throw new NotAllowedException();
+        }
+
+        this.dealerHand.addCard(deck.drawCard());
+        while(dealerHand.handValue() < 17){
+            this.dealerHand.addCard(deck.drawCard());
+        }
+        dealerHand.checkAceValue();
+
+//        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(),
+//                game.getDealerHand(), game.getUserName(), game.getState());
+
+//        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(),
+//                game.getDealerHand(), game.getUserName(), game.getState());
+
+        if(dealerHand.handValue() > 21){
+//            chipsService.depositChips(username, game.getBet() * 2);
+            state = GameStates.won;
+
         } else {
-            return false;
-        }
-    }
+            if (playerHand.handValue() > dealerHand.handValue()) {
+//                chipsService.depositChips(username, game.getBet() * 2);
+                state = GameStates.won;
 
-    public boolean checkBlackJack(Hand hand){
-       if(Game.getHandValue(hand) == 21){
-           return true;
-       } else {
-           return false;
-       }
-    }
+            } else if (playerHand.handValue() < dealerHand.handValue()){
+                state = GameStates.lost;
 
-    public boolean checkDealerHand(Hand hand){
-        int i = Game.getHandValue(hand);
-        while( i <= 16){
-            i++;
-            return true;
-        } return false;
-    }
-
-    public String checkWon(Hand playerHand, Hand dealerHand) {
-        if(Game.getHandValue(playerHand) > Game.getHandValue(dealerHand)) {
-            return "win";
-        } else if ((Game.getHandValue(playerHand) < Game.getHandValue(dealerHand))){
-            return "lost";
-        }
-            return "tie";
-        }
-
-    public void checkAceValue(Hand hand){
-        List<Card> cards = hand.getCards();
-        for(Card c : cards){
-            if(c.getRank() == Rank.ACE){
-               c.getRank().setRank(1);
-               return;
+            } else {
+//                chipsService.depositChips(username, game.getBet());
+                state = GameStates.push;
             }
         }
     }
 
+    public void doubleDown(){
+        if (!state.equals(on_going)) {
+            throw new NotAllowedException();
+        }
+//        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
+
+        this.hit();
+        playerHand.checkAceValue();
+
+        if(playerHand.handValue() > 21){
+            state = GameStates.bust;
+        }
+
+    }
+
+    public void surrender(){
+        if (!state.equals(on_going)) {
+            throw new NotAllowedException();
+        }
+//        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(),
+//                game.getDealerHand(), game.getUserName(), game.getState());
+
+//        chipsService.depositChips(username, game.getBet() / 2 );
+        state = GameStates.resigned;
+    }
+
+//    public boolean checkBust(Hand hand){
+//        if(Game.getHandValue(hand) > 21){
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
+
+//    public boolean checkBlackJack(Hand hand){
+//       if(Game.getHandValue(hand) == 21){
+//           return true;
+//       } else {
+//           return false;
+//       }
+//    }
+//
+//    public boolean checkDealerHand(Hand hand){
+//        int i = Game.getHandValue(hand);
+//        while( i <= 16){
+//            i++;
+//            return true;
+//        } return false;
+//    }
+//
+//    public String checkWon(Hand playerHand, Hand dealerHand) {
+//        if(Game.getHandValue(playerHand) > Game.getHandValue(dealerHand)) {
+//            return "win";
+//        } else if ((Game.getHandValue(playerHand) < Game.getHandValue(dealerHand))){
+//            return "lost";
+//        }
+//            return "push";
+//        }
 
 }

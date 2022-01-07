@@ -5,6 +5,8 @@ Verbeteringen t.o.v. vorige poging:
 - De aas word naar 1 gezet
 - De speler krijgt een status van het spel
 
+- Last minute, encapsulation toegepast door de service alleen service zaken te laten doen en Game de gamezaken
+
 Operabiliteit is verhoogd.
 
 - Booch domainmodel => abstraction, encapsulation, modularity, hierarchy
@@ -40,5 +42,9 @@ SOLID:
 	Dependency Inversion Principle(DIP):
 		"Modules moeten zoveel mogelijk afhankelijk zijn van abstracties 
 			en niet van concrete implementatiedetails"
+
+
+Zie discord voor correcte methoden:
+
 		
 	

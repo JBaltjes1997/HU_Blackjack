@@ -1,12 +1,6 @@
 package nl.hu.bep2.casino.blackjack.application;
 
-import nl.hu.bep2.casino.blackjack.domain.Cards.Card;
-import nl.hu.bep2.casino.blackjack.domain.Cards.Rank;
-import nl.hu.bep2.casino.blackjack.domain.Game;
 import nl.hu.bep2.casino.blackjack.domain.Hand;
-
-import javax.persistence.*;
-import java.util.List;
 
 public class GameData {
 
