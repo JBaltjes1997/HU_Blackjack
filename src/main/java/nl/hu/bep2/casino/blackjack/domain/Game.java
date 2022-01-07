@@ -125,7 +125,7 @@ public class Game {
         while(dealerHand.handValue() < 17){
             this.dealerHand.addCard(deck.drawCard());
         }
-        dealerHand.checkAceValue();
+//        dealerHand.checkAceValue();
 
 //        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(),
 //                game.getDealerHand(), game.getUserName(), game.getState());
@@ -145,8 +145,8 @@ public class Game {
             } else if (playerHand.handValue() < dealerHand.handValue()){
                 state = GameStates.lost;
 
-            } else {
-//                chipsService.depositChips(username, game.getBet());
+            } else if (playerHand.handValue() == dealerHand.handValue()){
+//                    chipsService.depositChips(username, game.getBet());
                 state = GameStates.push;
             }
         }
@@ -158,8 +158,10 @@ public class Game {
         }
 //        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
 
+        bet *= 2;
+
         this.hit();
-        playerHand.checkAceValue();
+//        playerHand.checkAceValue();
 
         if(playerHand.handValue() > 21){
             state = GameStates.bust;

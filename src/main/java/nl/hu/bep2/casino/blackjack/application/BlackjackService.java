@@ -151,6 +151,9 @@ public class BlackjackService {
 //        gameData.setState(resigned);
 
         game.surrender();
+        chipsService.depositChips(username, game.getBet() / 2);
+
+//        int answer = Math.floorDiv(5, 2);
 
         this.repository.save(game);
 

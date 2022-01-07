@@ -35,6 +35,7 @@ public class Hand implements Serializable {
         for(Card c : cards){
             value += c.getRank().getRank();
         }
+        checkAceValue();
         return value;
     }
 

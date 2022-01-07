@@ -44,11 +44,11 @@ public class BlackjackController {
         return this.service.doubleDown(username, id);
     }
 
-    @PostMapping("/{id}/stay")
+    @PostMapping("/{id}/stand")
     public GameData stay(Authentication authentication, @Validated @PathVariable Long id){
         String username = parseUsername(authentication);
 
-        return this.service.stay(username, id);
+        return this.service.stand(username, id);
     }
 
     @PostMapping("/{id}/surrender")
