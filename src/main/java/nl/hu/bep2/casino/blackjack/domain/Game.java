@@ -83,7 +83,7 @@ public class Game {
         this.dealerHand = new Hand();
         this.deck = Deck.full();
         this.deck.shuffle();
-        this.state = GameStates.on_going;
+        this.state = GameStates.start;
 
         this.playerHand.addCard(deck.drawCard());
         this.playerHand.addCard(deck.drawCard());
@@ -106,7 +106,7 @@ public class Game {
 
     public void hit() {
         if (!state.equals(on_going)) {
-            throw new NotAllowedException();
+            throw new NotAllowedException("Kan niet want het spel is afgelopen");
         }
 
         this.playerHand.addCard(deck.drawCard());
@@ -118,14 +118,14 @@ public class Game {
 
     public void stand(){
         if (!state.equals(on_going)) {
-            throw new NotAllowedException();
+            throw new NotAllowedException("Kan niet want het spel is afgelopen");
         }
 
         this.dealerHand.addCard(deck.drawCard());
         while(dealerHand.handValue() < 17){
             this.dealerHand.addCard(deck.drawCard());
         }
-//        dealerHand.checkAceValue();
+        dealerHand.checkAceValue();
 
 //        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(),
 //                game.getDealerHand(), game.getUserName(), game.getState());
@@ -153,15 +153,15 @@ public class Game {
     }
 
     public void doubleDown(){
-        if (!state.equals(on_going)) {
-            throw new NotAllowedException();
+        if (!state.equals(start)) {
+            throw new NotAllowedException("DoubleDown mag alleen bij de eerste 2 kaarten");
         }
 //        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
 
         bet *= 2;
 
         this.hit();
-//        playerHand.checkAceValue();
+        playerHand.checkAceValue();
 
         if(playerHand.handValue() > 21){
             state = GameStates.bust;
@@ -171,7 +171,7 @@ public class Game {
 
     public void surrender(){
         if (!state.equals(on_going)) {
-            throw new NotAllowedException();
+            throw new NotAllowedException("Kan niet want het spel is afgelopen");
         }
 //        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(),
 //                game.getDealerHand(), game.getUserName(), game.getState());
