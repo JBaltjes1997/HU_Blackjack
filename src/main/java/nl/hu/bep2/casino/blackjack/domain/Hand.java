@@ -47,6 +47,10 @@ public class Hand implements Serializable {
         }
     }
 
+    public boolean hasTwoCards(){
+        return cards.size() == 2;
+    }
+
 
 
 }

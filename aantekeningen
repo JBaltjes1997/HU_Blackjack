@@ -43,11 +43,8 @@ SOLID:
 		"Modules moeten zoveel mogelijk afhankelijk zijn van abstracties 
 			en niet van concrete implementatiedetails"
 
+Met POST kun je schrijven en krijgen, maar get GET alleen maar krijgen.
 
-start game. set state = start
-if blackjack state = blackjack
-} else if (!game.doubleDown){
-state.on_going
 
 }
 

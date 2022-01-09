@@ -79,31 +79,31 @@ public class Game {
         this.dealerHand = new Hand();
         this.deck = Deck.full();
         this.deck.shuffle();
-        this.state = on_going;
+        this.state = ON_GOING;
 
         this.playerHand.addCard(deck.drawCard());
         this.playerHand.addCard(deck.drawCard());
         this.dealerHand.addCard(deck.drawCard());
 
         if(playerHand.handValue() == 21 ){
-            state = GameStates.blackjack;
+            state = GameStates.BLACKJACK;
         }
     }
 
     public void hit() {
-        if (!state.equals(on_going)) {
+        if (!state.equals(ON_GOING)) {
             throw new NotAllowedException("Kan niet want het spel is al afgelopen / nog niet begonnen ");
         }
 
         this.playerHand.addCard(deck.drawCard());
 
         if (playerHand.handValue() > 21) {
-            state = GameStates.bust;
+            state = GameStates.BUST;
         }
     }
 
     public void stand(){
-        if (!state.equals(on_going)) {
+        if (!state.equals(ON_GOING)) {
             throw new NotAllowedException("Kan niet want het spel is al afgelopen / nog niet begonnen ");
         }
 
@@ -114,23 +114,27 @@ public class Game {
         dealerHand.checkAceValue();
 
         if(dealerHand.handValue() > 21){
-            state = GameStates.won;
+            state = GameStates.WON;
 
         } else {
             if (playerHand.handValue() > dealerHand.handValue()) {
-                state = GameStates.won;
+                state = GameStates.WON;
 
             } else if (playerHand.handValue() < dealerHand.handValue()){
-                state = GameStates.lost;
+                state = GameStates.LOST;
 
             } else if (playerHand.handValue() == dealerHand.handValue()){
-                state = GameStates.push;
+                state = GameStates.PUSH;
             }
         }
     }
 
     public void doubleDown(){
-        if (!state.equals(on_going)) {
+        if (!state.equals(ON_GOING)) {
+            throw new NotAllowedException("Kan niet want het spel is al afgelopen / nog niet begonnen");
+        }
+
+        if(!playerHand.hasTwoCards()){
             throw new NotAllowedException("DoubleDown mag alleen bij de eerste 2 kaarten");
         }
 
@@ -140,15 +144,15 @@ public class Game {
         playerHand.checkAceValue();
 
         if(playerHand.handValue() > 21){
-            state = GameStates.bust;
+            state = GameStates.BUST;
         }
 
     }
 
     public void surrender(){
-        if (!state.equals(on_going)) {
+        if (!state.equals(ON_GOING)) {
             throw new NotAllowedException("Kan niet want het spel is al afgelopen / nog niet begonnen ");
         }
-        state = GameStates.resigned;
+        state = GameStates.RESIGNED;
     }
 }

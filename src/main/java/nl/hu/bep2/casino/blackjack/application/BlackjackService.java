@@ -30,7 +30,7 @@ public class BlackjackService {
 
         game.startGame(username, bet);
 
-        if(game.getState() == GameStates.blackjack) {
+        if(game.getState() == GameStates.BLACKJACK) {
             chipsService.depositChips(username, (long) Math.floor(bet * 1.5));
         }
 
@@ -67,9 +67,9 @@ public class BlackjackService {
 
         game.doubleDown();
 
-        if(game.getState() == GameStates.won){
+        if(game.getState() == GameStates.WON){
             chipsService.depositChips(username, game.getBet() * 2);
-        } else if (game.getState() == GameStates.push){
+        } else if (game.getState() == GameStates.PUSH){
             chipsService.depositChips(username, game.getBet());
         }
 
@@ -83,9 +83,9 @@ public class BlackjackService {
 
         game.stand();
 
-        if(game.getState() == GameStates.won){
+        if(game.getState() == GameStates.WON){
             chipsService.depositChips(username, game.getBet() * 2);
-        } else if (game.getState() == GameStates.push){
+        } else if (game.getState() == GameStates.PUSH){
             chipsService.depositChips(username, game.getBet());
         }
 
