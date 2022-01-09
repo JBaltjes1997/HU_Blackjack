@@ -1,18 +1,19 @@
 package nl.hu.bep2.casino.blackjack.application;
 
+import nl.hu.bep2.casino.blackjack.domain.GameStates;
 import nl.hu.bep2.casino.blackjack.domain.Hand;
 
 public class GameData {
 
-    private Long id;
+    private final Long id;
 
-    private Long bet;
+    private final Long bet;
 
-    private Hand playerHand;
+    private final Hand playerHand;
 
-    private Hand dealerHand;
+    private final Hand dealerHand;
 
-    private String userName;
+    private final String userName;
 
     private GameStates state;
 
@@ -53,7 +54,4 @@ public class GameData {
         this.state = state;
     }
 
-//    private GameData(){   // zet hier zo'n DRY voor de GameData
-//        return new GameData()
-//    }
 }

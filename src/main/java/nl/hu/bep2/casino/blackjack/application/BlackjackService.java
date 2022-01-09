@@ -4,6 +4,7 @@ package nl.hu.bep2.casino.blackjack.application;
 import nl.hu.bep2.casino.blackjack.data.GameRepository;
 
 import nl.hu.bep2.casino.blackjack.domain.Game;
+import nl.hu.bep2.casino.blackjack.domain.GameStates;
 import nl.hu.bep2.casino.blackjack.domain.exceptions.GameNotFoundException;
 import nl.hu.bep2.casino.chips.application.ChipsService;
 import org.springframework.stereotype.Service;

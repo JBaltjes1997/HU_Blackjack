@@ -1,14 +1,10 @@
 package nl.hu.bep2.casino.blackjack.domain;
 
-import nl.hu.bep2.casino.blackjack.application.GameData;
-import nl.hu.bep2.casino.blackjack.application.GameStates;
-import nl.hu.bep2.casino.blackjack.domain.cards.Card;
 import nl.hu.bep2.casino.blackjack.domain.exceptions.NotAllowedException;
 
 import javax.persistence.*;
-import java.util.List;
 
-import static nl.hu.bep2.casino.blackjack.application.GameStates.*;
+import static nl.hu.bep2.casino.blackjack.domain.GameStates.*;
 
 @Entity
 @Table(name = "game")
@@ -83,30 +79,20 @@ public class Game {
         this.dealerHand = new Hand();
         this.deck = Deck.full();
         this.deck.shuffle();
-        this.state = GameStates.start;
+        this.state = on_going;
 
         this.playerHand.addCard(deck.drawCard());
         this.playerHand.addCard(deck.drawCard());
         this.dealerHand.addCard(deck.drawCard());
 
         if(playerHand.handValue() == 21 ){
-//            chipsService.depositChips(username, (long) (bet*1.5));
             state = GameStates.blackjack;
         }
     }
 
-//    public static int getHandValue(Hand hand){
-//        List<Card> cards = hand.getCards();
-//        int value = 0;
-//        for(Card c : cards){
-//            value += c.getRank().getRank();
-//        }
-//        return value;
-//    }
-
     public void hit() {
         if (!state.equals(on_going)) {
-            throw new NotAllowedException("Kan niet want het spel is afgelopen");
+            throw new NotAllowedException("Kan niet want het spel is al afgelopen / nog niet begonnen ");
         }
 
         this.playerHand.addCard(deck.drawCard());
@@ -118,7 +104,7 @@ public class Game {
 
     public void stand(){
         if (!state.equals(on_going)) {
-            throw new NotAllowedException("Kan niet want het spel is afgelopen");
+            throw new NotAllowedException("Kan niet want het spel is al afgelopen / nog niet begonnen ");
         }
 
         this.dealerHand.addCard(deck.drawCard());
@@ -127,36 +113,26 @@ public class Game {
         }
         dealerHand.checkAceValue();
 
-//        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(),
-//                game.getDealerHand(), game.getUserName(), game.getState());
-
-//        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(),
-//                game.getDealerHand(), game.getUserName(), game.getState());
-
         if(dealerHand.handValue() > 21){
-//            chipsService.depositChips(username, game.getBet() * 2);
             state = GameStates.won;
 
         } else {
             if (playerHand.handValue() > dealerHand.handValue()) {
-//                chipsService.depositChips(username, game.getBet() * 2);
                 state = GameStates.won;
 
             } else if (playerHand.handValue() < dealerHand.handValue()){
                 state = GameStates.lost;
 
             } else if (playerHand.handValue() == dealerHand.handValue()){
-//                    chipsService.depositChips(username, game.getBet());
                 state = GameStates.push;
             }
         }
     }
 
     public void doubleDown(){
-        if (!state.equals(start)) {
+        if (!state.equals(on_going)) {
             throw new NotAllowedException("DoubleDown mag alleen bij de eerste 2 kaarten");
         }
-//        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(), game.getDealerHand(), game.getUserName(), game.getState());
 
         bet *= 2;
 
@@ -171,46 +147,8 @@ public class Game {
 
     public void surrender(){
         if (!state.equals(on_going)) {
-            throw new NotAllowedException("Kan niet want het spel is afgelopen");
+            throw new NotAllowedException("Kan niet want het spel is al afgelopen / nog niet begonnen ");
         }
-//        GameData gameData = new GameData(game.getId(), game.getBet(), game.getPlayerHand(),
-//                game.getDealerHand(), game.getUserName(), game.getState());
-
-//        chipsService.depositChips(username, game.getBet() / 2 );
         state = GameStates.resigned;
     }
-
-//    public boolean checkBust(Hand hand){
-//        if(Game.getHandValue(hand) > 21){
-//            return true;
-//        } else {
-//            return false;
-//        }
-//    }
-
-//    public boolean checkBlackJack(Hand hand){
-//       if(Game.getHandValue(hand) == 21){
-//           return true;
-//       } else {
-//           return false;
-//       }
-//    }
-//
-//    public boolean checkDealerHand(Hand hand){
-//        int i = Game.getHandValue(hand);
-//        while( i <= 16){
-//            i++;
-//            return true;
-//        } return false;
-//    }
-//
-//    public String checkWon(Hand playerHand, Hand dealerHand) {
-//        if(Game.getHandValue(playerHand) > Game.getHandValue(dealerHand)) {
-//            return "win";
-//        } else if ((Game.getHandValue(playerHand) < Game.getHandValue(dealerHand))){
-//            return "lost";
-//        }
-//            return "push";
-//        }
-
 }

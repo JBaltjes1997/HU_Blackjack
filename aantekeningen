@@ -44,7 +44,12 @@ SOLID:
 			en niet van concrete implementatiedetails"
 
 
-Zie discord voor correcte methoden:
+start game. set state = start
+if blackjack state = blackjack
+} else if (!game.doubleDown){
+state.on_going
+
+}
 
 		
 	
