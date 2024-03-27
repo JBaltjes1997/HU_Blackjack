@@ -9,5 +9,3 @@ public enum GameStates {
     PUSH,
     RESIGNED,
 }
-
-// ENUMS met hoofdletters?
